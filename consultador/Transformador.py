@@ -87,10 +87,10 @@ try:
     parquet_path = "/shared/exportado.parquet"
     df.to_parquet(parquet_path, engine='pyarrow')
     
-    print(f"✅ Exportación completada: {csv_path} y {parquet_path}")
+    print(f" Exportación completada: {csv_path} y {parquet_path}")
 
 except Exception as e:
-    print(f"❌ Error durante la exportación: {str(e)}")
+    print(f" Error durante la exportación: {str(e)}")
     exit(1)
 finally:
     client.close()
