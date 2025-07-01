@@ -1,0 +1,36 @@
+FROM openjdk:8-jdk
+
+# Variables de entorno
+ENV HADOOP_VERSION=2.7.3 \
+    PIG_VERSION=0.16.0 \
+    HADOOP_HOME=/opt/hadoop \
+    PIG_HOME=/opt/pig \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    PATH=$PATH:/opt/hadoop/bin:/opt/hadoop/sbin:/opt/pig/bin
+
+# Instala herramientas necesarias
+RUN apt-get update && \
+    apt-get install -y wget ssh rsync vim && \
+    apt-get clean
+
+# Instalar Hadoop
+RUN wget https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz && \
+    tar -xzf hadoop-${HADOOP_VERSION}.tar.gz -C /opt && \
+    mv /opt/hadoop-${HADOOP_VERSION} $HADOOP_HOME && \
+    rm hadoop-${HADOOP_VERSION}.tar.gz
+
+# Instalar Pig
+RUN wget https://archive.apache.org/dist/pig/pig-${PIG_VERSION}/pig-${PIG_VERSION}.tar.gz && \
+    tar -xzf pig-${PIG_VERSION}.tar.gz -C /opt && \
+    mv /opt/pig-${PIG_VERSION} $PIG_HOME && \
+    rm pig-${PIG_VERSION}.tar.gz
+
+# Configuración de Hadoop para uso local
+RUN echo "export JAVA_HOME=${JAVA_HOME}" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
+# Crear script de inicio
+RUN echo '#!/bin/bash\n'\
+'exec bash' > /etc/bootstrap.sh && chmod +x /etc/bootstrap.sh
+
+# Entrypoint
+ENTRYPOINT ["/etc/bootstrap.sh"]

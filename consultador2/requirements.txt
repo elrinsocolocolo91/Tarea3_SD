@@ -1,0 +1,6 @@
+pymongo
+redis
+numpy
+pandas
+elasticsearch
+pyarrow
