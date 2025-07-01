@@ -12,3 +12,8 @@
   -El tiempo que permanece activo el generador de consultas
   -Las repeticiones máximas de las consultas
   -El TTL del cache
+
+#Datos a tener en cuenta:
+
+-En caso de querer ejecutar nuevamente el codigo, deben ser borrados los archivos del contenedor pig-runner-1 ubicados en user/share/logstash/ingest_data
+-Para ingresar a elastic mediante el puerto 5601, el usuario y contraseña configurados son: "elastic" y "contrasena"
