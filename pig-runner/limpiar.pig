@@ -1,4 +1,3 @@
--- Registrar las librerías necesarias (rutas dentro del contenedor)
 REGISTER '/opt/pig/lib/mongo-hadoop-core-2.0.2.jar';
 REGISTER '/opt/pig/lib/mongo-hadoop-pig-2.0.2.jar';
 REGISTER '/opt/pig/lib/mongo-java-driver-3.12.0.jar';
@@ -68,7 +67,6 @@ clean_data = FILTER raw_data BY
     id IS NOT NULL AND
     type IS NOT NULL;
 
--- 3. Selección EXACTA de campos que necesitas (en orden correcto)
 final_data = FOREACH clean_data GENERATE
     TRIM(street) AS street,
     id AS id,
@@ -81,5 +79,5 @@ final_data = FOREACH clean_data GENERATE
 --DUMP final_data;
 
 -- 5. Almacenamiento
---STORE final_data INTO '/shared/waze_processed_data' USING PigStorage(',');
+
 STORE final_data INTO '/usr/share/logstash/ingest_data/waze' USING PigStorage(',');
